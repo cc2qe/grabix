@@ -136,7 +136,7 @@ void load_index(string bgzf_file, index_info &index)
     ifstream index_file(index_file_name.c_str(), ios::in);
 
     if ( !index_file ) {
-        cerr << "[grabix] coould not find index file: " << index_file_name << ". Exiting!" << endl;
+        cerr << "[grabix] could not find index file: " << index_file_name << ". Exiting!" << endl;
         exit (1);
     }
     else {
@@ -199,13 +199,15 @@ int grab(string bgzf_file, size_t from_line, size_t to_line)
         line->l = 0; 
         line->m = 0; 
 
-        while ((status = bgzf_getline(bgzf_fp, '\n', line)) != 0)
+	/*
+	while ((status = bgzf_getline(bgzf_fp, '\n', line)) != 0)
         {
             if (line->s[0] == '#')
                 printf("%s\n", line->s);
             else break;
         }
-        
+	*/
+
         // easier to work in 0-based space
         size_t from_line_0  = from_line - 1;
         // get the chunk index for the requested line
