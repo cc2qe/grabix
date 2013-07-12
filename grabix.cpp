@@ -72,21 +72,25 @@ int create_grabix_index(string bgzf_file)
     ofstream index_file(index_file_name.c_str(), ios::out);
     
     // add the offset for the end of the header to the index
-
     int status;
     kstring_t *line = new kstring_t;
     line->s = '\0';
     line->l = 0;
     line->m = 0;
     
-    int64_t prev_offset, offset = 0;
-    while ((status = bgzf_getline(bgzf_fp, '\n', line)) >= 0)
+    int in_header = 1;
+    int64_t prev_offset = 0, offset = 0;
+    while ((status = bgzf_getline(bgzf_fp, '\n', line)) >= 0 && in_header)
     {
         offset = bgzf_tell (bgzf_fp);
-        if (line->s[0] != '#')
-            break;
+        if (line->s[0] != '#') {
+	  in_header = 0;
+	  break;
+	}
+	
         prev_offset = offset;
     }
+
     index_file << prev_offset << endl;
 
     // add the offsets for each CHUNK_SIZE
