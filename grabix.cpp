@@ -199,14 +199,12 @@ int grab(string bgzf_file, size_t from_line, size_t to_line)
         line->l = 0; 
         line->m = 0; 
 
-	/*
 	while ((status = bgzf_getline(bgzf_fp, '\n', line)) != 0)
         {
             if (line->s[0] == '#')
                 printf("%s\n", line->s);
             else break;
         }
-	*/
 
         // easier to work in 0-based space
         size_t from_line_0  = from_line - 1;
